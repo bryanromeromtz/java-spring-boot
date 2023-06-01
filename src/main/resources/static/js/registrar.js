@@ -32,7 +32,10 @@ const registrarUsuario = () => {
     .then(data => {
         if(data.id != 0) {
             alert("Usuario agragado con exito!!");
-            formRegistrarUsuario.reset();
+            setTimeout(function(){
+                window.location.href = "login.html";
+            }, 1500);
+
         }
     })
     .catch(error => {

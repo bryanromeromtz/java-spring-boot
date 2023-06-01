@@ -3,6 +3,8 @@ package com.cursojava.curso.controllers;
 
 import com.cursojava.curso.dao.UsuarioDao;
 import com.cursojava.curso.models.Usuario;
+import de.mkammerer.argon2.Argon2;
+import de.mkammerer.argon2.Argon2Factory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,6 +45,9 @@ public class UsuarioController {
 
     @PostMapping(value = "api/usuarios")
     public Usuario createUsuario(@RequestBody Usuario usuario) {
+        Argon2 argon2 = Argon2Factory.create(Argon2Factory.Argon2Types.ARGON2id);
+        String hash = argon2.hash(2, 1024, 2, usuario.getPassword());
+        usuario.setPassword(hash);
         return usuarioDao.createUsuario(usuario);
     }
 

@@ -26,22 +26,17 @@ function iniciarSesion() {
         },
         body: JSON.stringify(data)
     })
-    .then(response => {
-        if (response.ok) {
-            return response.text(); // En caso de éxito, obtener el mensaje de texto
-        } else {
-            //throw new Error(response.statusText); // En caso de error, lanzar una excepción con el mensaje de error del servidor
-            return response.text();
-        }
-    })
+    .then(data => data.text())
     .then(responseText => {
-        //console.log(responseText); // Imprimir el mensaje de texto de la respuesta
-        // Aquí puedes realizar las acciones necesarias según la respuesta del servidor
-        if(responseText === "Credenciales válidas") {
-            alert("Sesion Iniciada");
-        } else {
-            alert("Credenciales Incorrectas");
-        }
+            if (responseText === "OK") {
+                window.location.href = 'usuarios.html';
+            } else if (responseText === "FAIL") {
+                // Acciones a realizar en caso de credenciales inválidas
+                console.log("Credenciales inválidas");
+            } else {
+                // Acciones a realizar en caso de otra respuesta
+                console.log("Respuesta desconocida");
+            }
     })
     .catch(error => {
         console.error(error);
