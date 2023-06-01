@@ -21,11 +21,11 @@ public class AuthController {
 
     @PostMapping(value = "api/login")
     public String iniciarSesion(@RequestBody Usuario usuario) {
-         boolean credencialesValidas = usuarioDao.verificarCredenciales(usuario);
-        if (credencialesValidas) {
-            return "OK";
-        } else {
-            return "FAIL";
-        }
+         Usuario usuarioLogueado = usuarioDao.obtenerUsuarioPorCredenciales(usuario);
+         if(usuarioLogueado != null) {
+             String tokenJwt = jwtUtil.create(String.valueOf(usuarioLogueado.getId()), usuarioLogueado.getEmail());
+             return tokenJwt;
+         }
+         return "FALSE";
     }
 }
